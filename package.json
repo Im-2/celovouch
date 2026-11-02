@@ -1,0 +1,33 @@
+{
+  "name": "celovouch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A paid x402 trust check: should I pay this agent? Built for Celo's Agents on Open Rails hackathon.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "gen-wallet": "node scripts/gen-wallet.mjs"
+  },
+  "dependencies": {
+    "@celo/attribution-tags": "^0.5.0",
+    "@celo/buy-core": "0.8.3",
+    "@hono/node-server": "^2.1.6",
+    "@x402/core": "^2.29.0",
+    "@x402/evm": "^2.29.0",
+    "@x402/hono": "^2.29.0",
+    "hono": "^4.13.16",
+    "viem": "^2.57.14"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
