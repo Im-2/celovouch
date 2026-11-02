@@ -13,7 +13,26 @@ Built solo for Celo's Agents on Open Rails hackathon. Code in this repo was writ
 | `GET /health` | live |
 | `GET /v1/sample` | live, a fixed example about a fictional agent |
 | `GET /.well-known/agent-registration.json` | live, ERC-8004 registration-v1 file |
+| `GET /v1/receipts` | live, the public ledger of buy payments (empty until we pay) |
 | `GET /v1/report` | returns 501 until the x402 paywall ships |
+
+## How the server pays buy
+
+The server pays buy services through `@celo/buy-core`'s `payingFetch` (the library the `buy` CLI is built on), signing with the agent wallet's key from an environment variable. We do not shell out to the `buy` CLI: its file keystore does not support mainnet, so it cannot run on a cloud host.
+
+Our own code wraps every payment in `src/buy.ts` and fails closed:
+
+- a required per-call maximum, a per-report budget and a daily budget (defaults $0.02, $0.10 and $1.00, set in atomic units);
+- a ledger reservation is written before anything is signed, and an unreachable ledger, an unknown token or a cap hit all abort the payment;
+- every payment is recorded (service, purpose, token, amount, settlement tx hash) and exposed at `GET /v1/receipts` as the proof of payment for the Build with buy track.
+
+The Build with buy track needs no attribution tag, only the list of services used and proof of payment, which is what `/v1/receipts` provides.
+
+## Receipts storage
+
+The ledger lives in Postgres (`DATABASE_URL`) so it survives restarts and Render's ephemeral disk. It can be rebuilt from onchain stablecoin transfers out of the agent wallet (`src/rebuild.ts`): amounts, tokens, recipients and tx hashes come back, service and purpose labels do not. Without `DATABASE_URL` the server uses an in-memory ledger and says so at boot.
+
+Deploy notes are in [docs/RENDER.md](docs/RENDER.md).
 
 ## Run it
 

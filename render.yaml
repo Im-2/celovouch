@@ -1,0 +1,38 @@
+# Render Blueprint. No secret values live in this file: every `sync: false` is typed into the Render dashboard.
+services:
+  - type: web
+    name: celovouch
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: celovouch-db
+          property: connectionString
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: AGENT_ADDRESS
+        sync: false
+      - key: AGENT_PRIVATE_KEY
+        sync: false
+      - key: ATTRIBUTION_TAG
+        sync: false
+      - key: X402_API_KEY
+        sync: false
+      - key: AGENT_ID
+        sync: false
+      - key: PER_CALL_CAP_ATOMIC
+        value: "20000"
+      - key: REPORT_CAP_ATOMIC
+        value: "100000"
+      - key: DAILY_CAP_ATOMIC
+        value: "1000000"
+
+databases:
+  - name: celovouch-db
+    plan: free
