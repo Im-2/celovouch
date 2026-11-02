@@ -1,0 +1,39 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.keystore
+keystore*
+secrets/
+
+# buy wallet data (file keystore lives here)
+.buy-home/
+BUY_HOME/
+.buyhome/
+
+# local data
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+data/
+
+# deps and build
+node_modules/
+dist/
+coverage/
+
+# private planning notes and local agent tooling
+CELOVOUCH_BRIEF.md
+CLAUDE.md
+.claude/
+.agents/
+
+# os and editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
