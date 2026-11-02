@@ -1,7 +1,8 @@
 /**
  * Payment tokens accepted by the paid endpoint, on Celo mainnet (eip155:42220).
  * Addresses and metadata were read from the chain (scripts/check-tokens.mjs):
- * all three have 6 decimals. Prices are always explicit {amount, asset, extra}
+ * all three have 6 decimals. The EIP-712 name and version match what the Celo
+ * facilitator reports at GET https://api.x402.celo.org/supported. Prices are always explicit {amount, asset, extra}
  * objects: a bare "$0.01" would silently resolve to USDC.
  */
 export const CELO_MAINNET = "eip155:42220" as const;
@@ -15,12 +16,12 @@ export const TOKENS = {
   USDT: {
     address: "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e",
     decimals: 6,
-    extra: { name: "Tether USD" },
+    extra: { name: "Tether USD", version: "1" },
   },
   USAT: {
     address: "0xD2ab3C9A02DBBAB236BfEC45D1d755DF4267F771",
     decimals: 6,
-    extra: { name: "Tether America USD" },
+    extra: { name: "Tether America USD", version: "1" },
   },
 } as const;
 
